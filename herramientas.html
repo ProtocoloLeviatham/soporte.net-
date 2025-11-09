@@ -22,39 +22,157 @@
 
         <main class="page-content">
             <h1><// Soporte de Herramientas //></h1>
-            <p style="text-align: center; color: #aaa; max-width: 800px; margin: -20px auto 40px auto;">Aquí encontrarás soluciones a errores comunes con herramientas de pentesting y scripts de la comunidad (Nmap, Hashcat, Burp, etc.).</p>
+            <p style="text-align: center; color: #aaa; max-width: 800px; margin: -20px auto 40px auto;">Base de conocimiento y solución a errores comunes con herramientas de pentesting y scripts de la comunidad.</p>
 
+            <div class="toc-menu">
+                <h3>Acceso Rápido a Herramientas</h3>
+                <ul>
+                    <li><a href="#general">General</a></li>
+                    <li><a href="#nmap">Nmap</a></li>
+                    <li><a href="#metasploit">Metasploit</a></li>
+                    <li><a href="#wireshark">Wireshark</a></li>
+                    <li><a href="#sqlmap">SQLMap</a></li>
+                    <li><a href="#aircrack">Aircrack-ng</a></li>
+                    <li><a href="#hashcat">Hashcat</a></li>
+                    <li><a href="#burp">Burp Suite</a></li>
+                </ul>
+            </div>
+
+            <h2 id="general" class="faq-section-title">// General (Linux/Kali) //</h2>
             <div class="faq-item">
                 <div class="faq-question">Error: 'Permission denied' (Permiso denegado)</div>
                 <div class="faq-answer">
-                    <p>Este es el error más común. Significa que no tienes privilegios para ejecutar la acción.</p>
-                    <p><b>Solución 1 (Ejecutar como root):</b> Añade <code>sudo</code> antes de tu comando.<br><code>sudo nmap -sV target.com</code></p>
-                    <p><b>Solución 2 (Dar permisos):</b> Si es un script que descargaste, hazlo ejecutable.<br><code>chmod +x mi_script.sh</code></p>
+                    <p>El error más común. No tienes privilegios para ejecutar la acción (ej. abrir un puerto, leer un archivo protegido, iniciar una captura de red).</p>
+                    <p><b>Solución 1 (Root):</b> Ejecuta el comando con privilegios de superusuario.<br><code>sudo !!</code> (<code>!!</code> repite el último comando)</p>
+                    <p><b>Solución 2 (Permisos):</b> Si es un script, dale permisos de ejecución.<br><code>chmod +x mi_script.sh</code></p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Error: 'command not found' (Comando no encontrado)</div>
+                <div class="faq-answer">
+                    <p>El sistema no encuentra el ejecutable de la herramienta que intentas usar.</p>
+                    <p><b>Solución 1 (Instalación):</b> Asegúrate de que la herramienta esté instalada.<br><code>sudo apt install [nombre_herramienta]</code></p>
+                    <p><b>Solución 2 (PATH):</b> Si está instalada, asegúrate de que la carpeta que la contiene esté en tu variable $PATH del sistema.<br><code>echo $PATH</code></p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Error: 'File or directory not found' (Archivo no encontrado)</div>
+                <div class="faq-answer">
+                    <p>Estás intentando acceder a un archivo (wordlist, script, config) que no está en la ruta que especificaste.</p>
+                    <p><b>Solución:</b> Verifica la ruta. Usa <code>pwd</code> (imprimir directorio actual) y <code>ls -l</code> (listar archivos) para confirmar que estás donde crees estar y que el archivo existe.</p>
                 </div>
             </div>
 
+            <h2 id="nmap" class="faq-section-title">// Nmap //</h2>
             <div class="faq-item">
-                <div class="faq-question">Nmap: 'Host seems down' (El host parece caído)</div>
+                <div class="faq-question">Error: 'Host seems down' (El host parece caído)</div>
                 <div class="faq-answer">
-                    <p>Nmap cree que el objetivo no está en línea porque su "ping" inicial fue bloqueado, usualmente por un firewall.</p>
+                    <p>Nmap cree que el objetivo no está en línea porque su "ping" inicial (ICMP) fue bloqueado, usualmente por un firewall.</p>
                     <p><b>Solución:</b> Forza el escaneo asumiendo que está vivo. Usa el flag <code>-Pn</code>.<br><code>sudo nmap -Pn -sV target.com</code></p>
                 </div>
             </div>
-            
             <div class="faq-item">
-                <div class="faq-question">Hashcat/John: 'No hashes loaded' (No se cargaron hashes)</div>
+                <div class="faq-question">Error: 'Note: Host is listening on... but not responding to TCP...'</div>
                 <div class="faq-answer">
-                    <p>El programa no reconoce el formato de tu hash o el archivo está mal formateado.</p>
-                    <p><b>Solución 1:</b> Asegúrate de que el archivo de hash contenga *solo* el hash.</p>
-                    <p><b>Solución 2 (Hashcat):</b> Especifica el modo de hash correcto. Busca tu tipo de hash en el wiki de Hashcat (ej. <code>-m 1000</code> para NTLM).<br><code>hashcat -m 1000 hashes.txt wordlist.txt</code></p>
+                    <p>Nmap sabe que el puerto está abierto (ej. por un escaneo SYN) pero el servicio en ese puerto te está ignorando. Esto es común en puertos filtrados por firewall.</p>
+                    <p><b>Solución:</b> El puerto está <code>filtered</code>. Intenta usar diferentes tipos de escaneo (<code>-sT</code>, <code>-sF</code>, <code>-sX</code>) o cambia tu dirección IP de origen.</p>
+                </div>
+            </div>
+
+            <h2 id="metasploit" class="faq-section-title">// Metasploit (msfconsole) //</h2>
+            <div class="faq-item">
+                <div class="faq-question">Error: 'Exploit failed: The connection was refused...'</div>
+                <div class="faq-answer">
+                    <p>El exploit se ejecutó, pero el objetivo rechazó activamente la conexión. Esto puede significar:</p>
+                    <p>1. El puerto (<code>RPORT</code>) está cerrado en el objetivo.<br>2. El servicio no está corriendo en ese puerto.<br>3. Un firewall bloqueó la conexión.</p>
+                    <p><b>Solución:</b> Confirma con Nmap que el puerto está <code>open</code> y que el servicio (<code>SRVHOST</code>, <code>RHOST</code>) es correcto.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Error: 'No payload configured, defaulting to...'</div>
+                <div class="faq-answer">
+                    <p>Estás usando un exploit sin especificar *qué* quieres que haga después (ej. <code>windows/meterpreter/reverse_tcp</code>). Metasploit usará uno por defecto, pero rara vez es el que necesitas.</p>
+                    <p><b>Solución:</b> Usa el comando <code>set payload [nombre_payload]</code> después de seleccionar tu exploit.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Error: 'Session 1 died' (La sesión murió)</div>
+                <div class="faq-answer">
+                    <p>Obtuviste una sesión (Meterpreter, shell) pero se cerró inmediatamente. Esto suele pasar si el exploit es inestable, el antivirus lo detectó y lo mató, o el payload no es compatible con el sistema.</p>
+                    <p><b>Solución:</b> Intenta un payload diferente (ej. <code>stageless</code> vs <code>staged</code>) o migra a un proceso más estable (<code>migrate [PID]</code>) tan pronto como entres.</p>
                 </div>
             </div>
             
+            <h2 id="wireshark" class="faq-section-title">// Wireshark //</h2>
             <div class="faq-item">
-                <div class="faq-question">Burp/ZAP: 'SSLHandshakeException' (Error de certificado)</div>
+                <div class="faq-question">Error: 'No interfaces found' (No se encontraron interfaces)</div>
                 <div class="faq-answer">
-                    <p>Tu navegador no confía en el certificado "falso" que el proxy (Burp/ZAP) está usando para interceptar tráfico HTTPS.</p>
-                    <p><b>Solución:</b> Debes importar el certificado raíz de la herramienta en tu navegador.<br>En Burp, ve a <code>http://burp/</code> y descarga el "CA Certificate". Impórtalo en la configuración de certificados de tu navegador.</p>
+                    <p>Wireshark no puede encontrar ninguna tarjeta de red (WiFi, Ethernet) para capturar paquetes.</p>
+                    <p><b>Solución (Linux):</b> Probablemente lo iniciaste sin permisos. Cierra Wireshark y ejecútalo como root: <code>sudo wireshark</code>. O (mejor) añade tu usuario al grupo <code>wireshark</code>.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Tráfico HTTPS aparece como 'TCP' o 'TLSv1.2' y no se puede leer.</div>
+                <div class="faq-answer">
+                    <p>Esto no es un error, es encriptación. Wireshark no puede leer tráfico HTTPS por defecto.</p>
+                    <p><b>Solución:</b> Si controlas el cliente (ej. tu propio navegador), puedes exportar las "Pre-Master-Secret keys" desde el navegador e importarlas en Wireshark (<code>Edit > Preferences > Protocols > SSL > (Pre)-Master-Secret log filename</code>). Es un proceso avanzado.</p>
+                </div>
+            </div>
+
+            <h2 id="sqlmap" class="faq-section-title">// SQLMap //</h2>
+            <div class="faq-item">
+                <div class="faq-question">Error: 'all tested parameters do not appear to be injectable'</div>
+                <div class="faq-answer">
+                    <p>SQLMap probó los parámetros (ej. <code>?id=</code>) y no pudo confirmar una inyección SQL con sus pruebas básicas.</p>
+                    <p><b>Solución:</b> Aumenta la intensidad de las pruebas. Usa <code>--level=3</code> (añade más payloads) y <code>--risk=3</code> (añade pruebas más peligrosas). También puedes estar siendo bloqueado por un WAF (Web Application Firewall).</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Error: 'target URL is not stable' (El sitio es inestable)</div>
+                <div class="faq-answer">
+                    <p>SQLMap compara la página normal con la página "atacada". Si la página cambia mucho en cada recarga (ej. por anuncios dinámicos), SQLMap se confunde.</p>
+                    <p><b>Solución:</b> Intenta encontrar una página más estable o usa la opción <code>--string="[TEXTO_FIJO]"</code> para decirle a SQLMap qué texto siempre debe estar presente en la página válida.</p>
+                </div>
+            </div>
+
+            <h2 id="aircrack" class="faq-section-title">// Aircrack-ng //</h2>
+            <div class="faq-item">
+                <div class="faq-question">Error: 'Fixed channel [interface]: -1'</div>
+                <div class="faq-answer">
+                    <p>Intentaste usar <code>airodump-ng</code> o <code>aireplay-ng</code> en una interfaz (ej. <code>wlan0</code>) que no está en "Modo Monitor".</p>
+                    <p><b>Solución:</b> Debes poner la tarjeta en modo monitor primero.<br><code>sudo airmon-ng start wlan0</code> (Esto creará una nueva interfaz, ej. <code>wlan0mon</code>)<br><code>sudo airodump-ng wlan0mon</code></p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Error: 'Got 0 IVs' (Tengo 0 IVs) - (Ataque WEP)</div>
+                <div class="faq-answer">
+                    <p>Estás intentando crackear una red WEP, pero <code>airodump-ng</code> no está capturando "paquetes de datos" (IVs), solo beacons. Esto pasa si no hay nadie conectado o usándola.</p>
+                    <p><b>Solución:</b> Necesitas forzar tráfico. Usa <code>aireplay-ng --arpreplay -b [BSSID] -h [CLIENT_MAC] wlan0mon</code> para re-inyectar paquetes ARP y generar tráfico.</p>
+                </div>
+            </div>
+
+            <h2 id="hashcat" class="faq-section-title">// Hashcat //</h2>
+            <div class="faq-item">
+                <div class="faq-question">Error: 'No hashes loaded' (No se cargaron hashes)</div>
+                <div class="faq-answer">
+                    <p>El programa no reconoce el formato de tu hash o el archivo está mal formateado.</p>
+                    <p><b>Solución:</b> Asegúrate de que el archivo de hash contenga *solo* el hash (ej. <code>5f4dcc3b5aa765d61d8327deb882cf99</code>) y especifica el modo correcto (<code>-m [CODE]</code>). Usa la web de ejemplos de Hashcat para encontrar el código de tu hash (ej. <code>-m 0</code> para MD5).</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Error: 'Device #1: Kernel... insufficient memory' (Memoria insuficiente)</div>
+                <div class="faq-answer">
+                    <p>Tu tarjeta gráfica (GPU) no tiene suficiente VRAM para manejar el ataque que estás pidiendo (común con hashes "lentos" como bcrypt o en ataques de diccionario muy grandes).</p>
+                    <p><b>Solución:</b> Cierra otros programas que usen la GPU (juegos, videos). Si eso no funciona, reduce el tamaño del "workload" con <code>-w 2</code> o <code>-w 1</code>, aunque esto reducirá la velocidad.</p>
+                </div>
+            </div>
+
+            <h2 id="burp" class="faq-section-title">// Burp Suite //</h2>
+            <div class="faq-item">
+                <div class="faq-question">Error: 'SSLHandshakeException' (Error de certificado)</div>
+                <div class="faq-answer">
+                    <p>Tu navegador no confía en el certificado "falso" que Burp usa para interceptar tráfico HTTPS.</p>
+                    <p><b>Solución:</b> Con Burp abierto y configurado como proxy, ve en tu navegador a <code>http://burp/</code> (o <code>http://127.0.0.1:8080</code>). Descarga el "CA Certificate" e impórtalo en la sección de "Autoridades Confiables" en la configuración de certificados de tu navegador.</p>
                 </div>
             </div>
 
