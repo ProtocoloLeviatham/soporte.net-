@@ -86,7 +86,7 @@ header {
 
 .logo-ascii {
     font-family: 'Courier New', Courier, monospace;
-    white-space: pre; /* Súper importante para arte ASCII */
+    white-space: pre;
     font-size: 1.1em;
     color: #8A2BE2;
     text-shadow: 0 0 5px #4B0082, 0 0 10px #8A2BE2;
@@ -94,6 +94,8 @@ header {
     letter-spacing: 1px;
     line-height: 1.2;
     text-align: center;
+    /* NUEVO: Animación Glitch */
+    animation: glitch 3s linear infinite;
 }
 
 header h1 {
@@ -142,7 +144,7 @@ h2 {
     padding: 25px;
     border-radius: 5px;
     transition: transform 0.3s, box-shadow 0.3s;
-    display: flex; /* Para alinear botón abajo */
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
@@ -161,7 +163,7 @@ h2 {
 .support-category p {
     color: #ccc;
     margin-bottom: 20px;
-    flex-grow: 1; /* Empuja el botón hacia abajo */
+    flex-grow: 1;
 }
 
 .btn {
@@ -181,7 +183,7 @@ h2 {
     background-color: #9400D3;
 }
 
-/* --- SECCIÓN TIENDA MEJORADA --- */
+/* --- SECCIÓN TIENDA MEJORADA (CON FLEXBOX) --- */
 #tienda p {
     text-align: center;
     font-size: 1.2em;
@@ -191,7 +193,6 @@ h2 {
 
 .shop-grid {
     display: grid;
-    /* Columnas responsive: Mínimo 280px, máximo 1fr. Se ajusta solo */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 25px;
 }
@@ -200,10 +201,13 @@ h2 {
     background: #1a1a1a;
     border: 1px solid #333;
     border-radius: 5px;
-    text-align: center;
+    text-align: left; /* Centrado se ve mal con texto largo */
     position: relative;
     overflow: hidden;
     transition: transform 0.3s;
+    /* NUEVO: Flexbox para igualar alturas */
+    display: flex;
+    flex-direction: column;
 }
 
 .shop-item:hover {
@@ -212,15 +216,20 @@ h2 {
 
 .shop-item-image-placeholder {
     width: 100%;
-    aspect-ratio: 16 / 9; /* Marco de foto 16:9 */
+    aspect-ratio: 16 / 9;
     object-fit: cover;
     background-color: #333;
     border-radius: 5px 5px 0 0;
     opacity: 0.3;
 }
 
+/* NUEVO: Contenedor de contenido flexible */
 .shop-item-content {
     padding: 20px;
+    /* NUEVO: Crece para rellenar espacio */
+    flex-grow: 1; 
+    display: flex;
+    flex-direction: column;
 }
 
 .shop-item-content h3 {
@@ -229,10 +238,19 @@ h2 {
     margin-bottom: 10px;
 }
 
+/* NUEVO: Párrafo de descripción (texto largo) */
+.shop-item-content .description {
+    color: #aaa;
+    margin-bottom: 15px;
+    /* NUEVO: Crece para empujar el precio hacia abajo */
+    flex-grow: 1; 
+}
+
 .shop-item-content .price {
     font-size: 1.2em;
     color: #8A2BE2;
     font-weight: bold;
+    text-align: right; /* Alinea el precio a la derecha */
 }
 
 .coming-soon-overlay {
@@ -294,7 +312,6 @@ footer .footer-links a:hover {
 
 /* --- ESTILOS PARA PÁGINAS NUEVAS (Bots, Reporte, Herramientas, Terminos) --- */
 
-/* Contenedor principal para contenido de página nueva */
 .page-content {
     padding: 20px 0;
 }
@@ -307,6 +324,44 @@ footer .footer-links a:hover {
     text-transform: uppercase;
 }
 
+/* NUEVO: Estilos para el Menú Rápido (TOC) */
+.toc-menu {
+    background: #111;
+    border: 1px solid #4B0082;
+    padding: 20px;
+    margin-bottom: 40px;
+    border-radius: 5px;
+}
+
+.toc-menu h3 {
+    color: #8A2BE2;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.toc-menu ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.toc-menu ul li a {
+    color: #e0e0e0;
+    text-decoration: none;
+    background: #222;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.toc-menu ul li a:hover {
+    background-color: #8A2BE2;
+    color: #fff;
+}
+
 /* Estilos para Guía de Bots y Soporte de Herramientas (FAQ) */
 .guide-item,
 .faq-item {
@@ -316,12 +371,30 @@ footer .footer-links a:hover {
     border-radius: 5px;
 }
 
+/* NUEVO: h2 anclado (para el TOC) */
+.faq-section-title {
+    font-size: 2.2em;
+    color: #8A2BE2;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    text-align: left;
+    border-bottom: 1px dashed #4B0082;
+    padding-bottom: 10px;
+}
+
 .guide-item h3,
 .faq-question {
     font-size: 1.8em;
     color: #8A2BE2;
     padding: 20px;
     border-bottom: 1px dashed #333;
+    /* NUEVO: Efecto hover */
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.faq-question:hover {
+    color: #9400D3;
 }
 
 .guide-item p,
@@ -339,6 +412,7 @@ footer .footer-links a:hover {
     padding: 3px 6px;
     border-radius: 3px;
     font-family: 'Consolas', 'Courier New', monospace;
+    display: inline-block; /* Evita saltos de línea raros */
 }
 
 .guide-item ul {
@@ -346,100 +420,66 @@ footer .footer-links a:hover {
     padding-left: 20px;
 }
 
-/* Estilos para Página de Reporte */
+/* Estilos para Página de Reporte (sin cambios) */
 .report-section {
     text-align: center;
     max-width: 800px;
     margin: 0 auto;
 }
+.report-section p { font-size: 1.2em; color: #ccc; margin-bottom: 30px; }
+.report-section .btn-urgent { background-color: #D30000; font-size: 1.5em; padding: 15px 30px; }
+.report-section .btn-urgent:hover { background-color: #FF0000; }
+.report-section h2 { margin-top: 50px; font-size: 2em; color: #8A2BE2; }
+.report-section ul { list-style: none; padding: 0; display: inline-block; text-align: left; margin-top: 20px; font-size: 1.1em; }
+.report-section ul li { background: #111; padding: 10px; margin-bottom: 8px; border-left: 3px solid #8A2BE2; }
 
-.report-section p {
-    font-size: 1.2em;
-    color: #ccc;
-    margin-bottom: 30px;
-}
+/* Estilos para Página de Términos (sin cambios) */
+.legal-text { max-width: 900px; margin: 0 auto; }
+.legal-text h3 { font-size: 1.8em; color: #8A2BE2; margin-top: 30px; margin-bottom: 15px; }
+.legal-text p { color: #ccc; margin-bottom: 20px; }
 
-.report-section .btn-urgent {
-    background-color: #D30000; /* Rojo urgente */
-    font-size: 1.5em;
-    padding: 15px 30px;
-}
-
-.report-section .btn-urgent:hover {
-    background-color: #FF0000;
-}
-
-.report-section h2 {
-    margin-top: 50px;
-    font-size: 2em;
-    color: #8A2BE2;
-}
-
-.report-section ul {
-    list-style: none;
-    padding: 0;
-    display: inline-block;
-    text-align: left;
-    margin-top: 20px;
-    font-size: 1.1em;
-}
-
-.report-section ul li {
-    background: #111;
-    padding: 10px;
-    margin-bottom: 8px;
-    border-left: 3px solid #8A2BE2;
-}
-
-/* Estilos para Página de Términos */
-.legal-text {
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.legal-text h3 {
-    font-size: 1.8em;
-    color: #8A2BE2;
-    margin-top: 30px;
-    margin-bottom: 15px;
-}
-
-.legal-text p {
-    color: #ccc;
-    margin-bottom: 20px;
-}
-
-/* --- RESPONSIVE DESIGN --- */
+/* --- RESPONSIVE DESIGN (sin cambios) --- */
 @media (max-width: 768px) {
-    nav {
-        flex-direction: column;
-        align-items: center;
-    }
-    nav ul {
-        flex-direction: column;
-        text-align: center;
-        margin-top: 20px;
-        width: 100%;
-    }
-    nav ul li {
-        margin: 10px 0;
-    }
-    header h1 {
-        font-size: 2.5em;
-    }
-    .logo-ascii {
-        font-size: 0.8em;
-    }
+    nav { flex-direction: column; align-items: center; }
+    nav ul { flex-direction: column; text-align: center; margin-top: 20px; width: 100%; }
+    nav ul li { margin: 10px 0; }
+    header h1 { font-size: 2.5em; }
+    .logo-ascii { font-size: 0.8em; }
+}
+@media (max-width: 480px) {
+    header h1 { font-size: 2em; }
+    h2 { font-size: 2em; }
+    .logo-ascii { font-size: 0.6em; }
 }
 
-@media (max-width: 480px) {
-    header h1 {
-        font-size: 2em;
+/* --- NUEVO: Animación Glitch --- */
+@keyframes glitch {
+    0% {
+        transform: translate(0);
+        text-shadow: 0 0 5px #4B0082, 0 0 10px #8A2BE2;
     }
-    h2 {
-        font-size: 2em;
+    2% {
+        transform: translate(-3px, 2px);
+        text-shadow: 0 0 5px #FF00FF, 0 0 10px #00FFFF;
     }
-    .logo-ascii {
-        font-size: 0.6em;
+    4% {
+        transform: translate(0);
+        text-shadow: 0 0 5px #4B0082, 0 0 10px #8A2BE2;
+    }
+    6% {
+        transform: translate(3px, -2px);
+        text-shadow: 0 0 5px #FF00FF, 0 0 10px #00FFFF;
+    }
+    8% {
+        transform: translate(0);
+        text-shadow: 0 0 5px #4B0082, 0 0 10px #8A2BE2;
+    }
+    90% {
+        transform: translate(0);
+        text-shadow: 0 0 5px #4B0082, 0 0 10px #8A2BE2;
+    }
+    100% {
+        transform: translate(0);
+        text-shadow: 0 0 5px #4B0082, 0 0 10px #8A2BE2;
     }
 }
