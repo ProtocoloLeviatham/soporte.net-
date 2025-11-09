@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Bots // Leviatham</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <canvas id="matrix-canvas"></canvas>
+
+    <div class="container">
+        <nav>
+            <div class="logo"><a href="index.html" style="text-decoration: none; color: #e0e0e0;">Leviatham</a></div>
+            <ul>
+                <li><a href="index.html#soporte">Soporte</a></li>
+                <li><a href="index.html#tienda">Tienda</a></li>
+                <li><a href="index.html#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+
+        <main class="page-content">
+            <h1><// Guía de Bots //></h1>
+
+            <div class="guide-item">
+                <h3>Bot "Observer" (IP Tracker)</h3>
+                <p>Este bot utiliza OSINT para rastrear y geolocalizar direcciones IP. Proporciona información como ISP, ciudad, país y posible uso de VPN.</p>
+                <ul>
+                    <li><b>Comando:</b> <code>/track [IP_ADDRESS]</code></li>
+                    <li><b>Uso:</b> <code>/track 8.8.8.8</code></li>
+                    <li><b>Error Común:</b> "IP Inválida". Asegúrate de usar un formato IPv4 o IPv6 válido.</li>
+                </ul>
+            </div>
+
+            <div class="guide-item">
+                <h3>Bot "Nexus" (API Matelgo)</h3>
+                <p>Nexus se conecta a la API de Matelgo para encontrar relaciones y datos públicos asociados a un nombre de usuario o email.</p>
+                <ul>
+                    <li><b>Comando:</b> <code>/nexus [email_or_user]</code></li>
+                    <li><b>Uso:</b> <code>/nexus "usuario_ejemplo"</code></li>
+                    <li><b>Error Común:</b> "Sin resultados". La API no encontró coincidencias públicas. La información es limitada.</li>
+                </ul>
+            </div>
+
+            <div class="guide-item">
+                <h3>Bot "GhostMail" (Emails Temporales)</h3>
+                <p>Genera direcciones de email temporales y desechables para registros sin usar tu correo personal.</p>
+                <ul>
+                    <li><b>Comando:</b> <code>/genmail</code> - Genera un nuevo email.</li>
+                    <li><b>Comando:</b> <code>/checkmail</code> - Revisa la bandeja de entrada del último email generado.</li>
+                    <li><b>Nota:</b> Los emails expiran después de 60 minutos.</li>
+                </ul>
+            </div>
+
+            <div class="guide-item">
+                <h3><// Nuevos Bots en Desarrollo //></h3>
+                <p>El equipo está trabajando en nuevas herramientas, incluyendo un escáner de puertos para Telegram y un analizador de metadatos de archivos. ¡Próximamente!</p>
+            </div>
+
+        </main>
+
+    </div> <footer>
+        <p>&copy; 2025 Leviatham Protocolo. Todos los derechos reservados.</p>
+        <div class="footer-links">
+            <a href="terminos.html">Términos y Condiciones</a>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
