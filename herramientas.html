@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soporte Herramientas // Leviatham</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <canvas id="matrix-canvas"></canvas>
+
+    <div class="container">
+        <nav>
+            <div class="logo"><a href="index.html" style="text-decoration: none; color: #e0e0e0;">Leviatham</a></div>
+            <ul>
+                <li><a href="index.html#soporte">Soporte</a></li>
+                <li><a href="index.html#tienda">Tienda</a></li>
+                <li><a href="index.html#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+
+        <main class="page-content">
+            <h1><// Soporte de Herramientas //></h1>
+            <p style="text-align: center; color: #aaa; max-width: 800px; margin: -20px auto 40px auto;">Aquí encontrarás soluciones a errores comunes con herramientas de pentesting y scripts de la comunidad (Nmap, Hashcat, Burp, etc.).</p>
+
+            <div class="faq-item">
+                <div class="faq-question">Error: 'Permission denied' (Permiso denegado)</div>
+                <div class="faq-answer">
+                    <p>Este es el error más común. Significa que no tienes privilegios para ejecutar la acción.</p>
+                    <p><b>Solución 1 (Ejecutar como root):</b> Añade <code>sudo</code> antes de tu comando.<br><code>sudo nmap -sV target.com</code></p>
+                    <p><b>Solución 2 (Dar permisos):</b> Si es un script que descargaste, hazlo ejecutable.<br><code>chmod +x mi_script.sh</code></p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Nmap: 'Host seems down' (El host parece caído)</div>
+                <div class="faq-answer">
+                    <p>Nmap cree que el objetivo no está en línea porque su "ping" inicial fue bloqueado, usualmente por un firewall.</p>
+                    <p><b>Solución:</b> Forza el escaneo asumiendo que está vivo. Usa el flag <code>-Pn</code>.<br><code>sudo nmap -Pn -sV target.com</code></p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Hashcat/John: 'No hashes loaded' (No se cargaron hashes)</div>
+                <div class="faq-answer">
+                    <p>El programa no reconoce el formato de tu hash o el archivo está mal formateado.</p>
+                    <p><b>Solución 1:</b> Asegúrate de que el archivo de hash contenga *solo* el hash.</p>
+                    <p><b>Solución 2 (Hashcat):</b> Especifica el modo de hash correcto. Busca tu tipo de hash en el wiki de Hashcat (ej. <code>-m 1000</code> para NTLM).<br><code>hashcat -m 1000 hashes.txt wordlist.txt</code></p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Burp/ZAP: 'SSLHandshakeException' (Error de certificado)</div>
+                <div class="faq-answer">
+                    <p>Tu navegador no confía en el certificado "falso" que el proxy (Burp/ZAP) está usando para interceptar tráfico HTTPS.</p>
+                    <p><b>Solución:</b> Debes importar el certificado raíz de la herramienta en tu navegador.<br>En Burp, ve a <code>http://burp/</code> y descarga el "CA Certificate". Impórtalo en la configuración de certificados de tu navegador.</p>
+                </div>
+            </div>
+
+        </main>
+    </div> <footer>
+        <p>&copy; 2025 Leviatham Protocolo. Todos los derechos reservados.</p>
+        <div class="footer-links">
+            <a href="terminos.html">Términos y Condiciones</a>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
